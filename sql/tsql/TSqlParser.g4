@@ -39,7 +39,8 @@ batch
     ;
 
 batch_level_statement
-    : create_or_alter_function
+    : create_aggregate
+    | create_or_alter_function
     | create_or_alter_procedure
     | create_or_alter_trigger
     | create_view
@@ -2223,6 +2224,14 @@ ddl_trigger_operation
     : simple_id
     ;
 
+// https://learn.microsoft.com/en-us/sql/t-sql/statements/create-aggregate-transact-sql
+create_aggregate
+    : CREATE AGGREGATE aggName=func_proc_name_schema
+        ('(' aggregate_param (',' aggregate_param)* ')')
+        RETURNS sqltype_type 
+        EXTERNAL NAME assembly_name=id_ ( '.' class_name=id_ )? ';'?
+    ;
+
 // https://msdn.microsoft.com/en-us/library/ms186755.aspx
 create_or_alter_function
     : ((CREATE (OR ALTER)?) | ALTER) FUNCTION funcName=func_proc_name_schema
@@ -2265,6 +2274,10 @@ procedure_param_default_value
 
 procedure_param
     : LOCAL_ID AS? (type_schema=id_ '.')? data_type VARYING? ('=' default_val=procedure_param_default_value)? (OUT | OUTPUT | READONLY)?
+    ;
+
+aggregate_param
+    : LOCAL_ID (type_schema=id_ '.')? sqltype_type null_notnull?
     ;
 
 procedure_option
@@ -5058,6 +5071,11 @@ data_type
     | ext_type=id_ IDENTITY ('(' seed=DECIMAL ',' inc=DECIMAL ')')?
     | double_prec=DOUBLE PRECISION?
     | unscaled_type=id_
+    ;
+
+sqltype_type
+    : scaled=(VARCHAR | NVARCHAR | BINARY_KEYWORD | VARBINARY_KEYWORD | SQUARE_BRACKET_ID) '(' MAX ')'
+    | ( udt_schema_name=id_ DOT )? udt_type_name=id_
     ;
 
 // https://msdn.microsoft.com/en-us/library/ms179899.aspx
