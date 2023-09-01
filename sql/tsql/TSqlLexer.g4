@@ -1022,6 +1022,7 @@ TOP:                                   'TOP';
 TORN_PAGE_DETECTION:                   'TORN_PAGE_DETECTION';
 TOSTRING:                              'TOSTRING';
 TRACE:                                 'TRACE';
+TRACK_COLUMNS_UPDATED:                 'TRACK_COLUMNS_UPDATED';
 TRACKING:                              'TRACKING';
 TRACK_CAUSALITY:                       'TRACK_CAUSALITY';
 TRAN:                                  'TRAN';

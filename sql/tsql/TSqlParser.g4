@@ -2385,9 +2385,14 @@ alter_table
                                 | CHECK '(' search_condition ')' )
                              | (NOCHECK | CHECK) CONSTRAINT constraint=id_
                              | (ENABLE | DISABLE) TRIGGER id_?
+                             | (ENABLE | DISABLE) CHANGE_TRACKING change_tarcking_table?
                              | REBUILD table_options
                              | SWITCH switch_partition)
                              ';'?
+    ;
+
+change_tarcking_table
+    : WITH '(' TRACK_COLUMNS_UPDATED '=' (ON | OFF) ')'
     ;
 
 switch_partition
