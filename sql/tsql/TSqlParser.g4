@@ -4807,7 +4807,7 @@ table_value_constructor
     ;
 
 expression_list_
-    : exp+=expression (',' exp+=expression)*
+    : exp+=all_distinct_expression (',' exp+=all_distinct_expression)*
     ;
 
 // https://msdn.microsoft.com/en-us/library/ms189798.aspx
