@@ -1,0 +1,3 @@
+SELECT
+ [LastRoute] = (SELECT * FROM #LastRoute AS lr FOR XML PATH(''), ELEMENTS XSINIL, TYPE)
+FOR XML PATH(''), ROOT('ROOT')

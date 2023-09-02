@@ -3806,6 +3806,7 @@ expression
     | expression op=('+' | '-' | '&' | '^' | '|' | '||') expression
     | expression time_zone
     | over_clause
+    | select_statement
     | DOLLAR_ACTION
     ;
 
@@ -3902,6 +3903,7 @@ query_specification
       // https://msdn.microsoft.com/en-us/library/ms177673.aspx
       (GROUP BY ((groupByAll=ALL? groupBys+=group_by_item (',' groupBys+=group_by_item)*) | GROUPING SETS '(' groupSets+=grouping_sets_item (',' groupSets+=grouping_sets_item)* ')'))?
       (HAVING having=search_condition)?
+      for_clause?
     ;
 
 // https://msdn.microsoft.com/en-us/library/ms189463.aspx
@@ -3939,7 +3941,7 @@ for_clause
     | FOR XML EXPLICIT xml_common_directives*
       (COMMA XMLDATA)?
     | FOR XML PATH ('(' STRING ')')? xml_common_directives*
-      (COMMA ELEMENTS (XSINIL | ABSENT)?)?
+      (COMMA ELEMENTS (XSINIL | ABSENT)?)? (COMMA TYPE)?
     | FOR JSON (AUTO | PATH)
       ( COMMA
         ( ROOT ('(' STRING ')')
