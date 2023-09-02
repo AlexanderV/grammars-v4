@@ -248,6 +248,7 @@ cfl_statement
     | continue_statement
     | goto_statement
     | if_statement
+    | if_update_statement
     | print_statement
     | raiseerror_statement
     | return_statement
@@ -286,6 +287,19 @@ return_statement
 // https://docs.microsoft.com/en-us/sql/t-sql/language-elements/if-else-transact-sql
 if_statement
     : IF search_condition sql_clauses (ELSE sql_clauses)? ';'?
+    ;
+
+if_update_statement
+    : IF trigger_update_statement sql_clauses (ELSE sql_clauses)? ';'?
+    ;
+
+trigger_update_statement
+    : update_columns (OR update_columns)*
+    | '(' trigger_update_statement ')'
+    ;
+
+update_columns
+    : UPDATE '(' column_name=id_ ')'
     ;
 
 // https://docs.microsoft.com/en-us/sql/t-sql/language-elements/throw-transact-sql
