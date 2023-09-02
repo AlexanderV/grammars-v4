@@ -3413,6 +3413,21 @@ dbcc_checktable
         )?
     ;
 
+dbcc_checkident
+    : name=CHECKIDENT
+        '('
+            checkident_table_name=STRING
+            ( ',' (
+                    NORESEED
+                    | RESEED (',' index_id=expression)?
+                )
+            )?
+        ')'
+        (
+            WITH NO_INFOMSGS
+        )?
+    ;
+
 // https://learn.microsoft.com/en-us/sql/t-sql/database-console-commands/dbcc-cleantable-transact-sql?view=sql-server-ver16
 dbcc_cleantable
     : name=CLEANTABLE
@@ -3521,6 +3536,7 @@ dbcc_clause
         | dbcc_checkdb
         | dbcc_checkfilegroup
         | dbcc_checktable
+        | dbcc_checkident
         | dbcc_cleantable
         | dbcc_clonedatabase
         | dbcc_dbreindex
