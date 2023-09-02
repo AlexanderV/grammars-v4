@@ -2801,10 +2801,12 @@ declare_statement
     | WITH XMLNAMESPACES '(' xml_dec+=xml_declaration (',' xml_dec+=xml_declaration)* ')'
     | ',' declare_statement
     ;
+
 declare_statement_
     : LOCAL_ID AS? (data_type | table_type_definition | ((schema=id_ '.')? table_name))
     | loc+=declare_local (',' loc+=declare_local)*
     | LOCAL_ID AS? xml_type_definition
+    | declare_cursor
     ;
 
 xml_declaration
@@ -2819,7 +2821,7 @@ cursor_statement
     // https://msdn.microsoft.com/en-us/library/ms188782(v=sql.120).aspx
     | DEALLOCATE GLOBAL? CURSOR? cursor_name ';'?
     // https://msdn.microsoft.com/en-us/library/ms180169(v=sql.120).aspx
-    | declare_cursor
+    //| declare_cursors
     // https://msdn.microsoft.com/en-us/library/ms180152(v=sql.120).aspx
     | fetch_cursor
     // https://msdn.microsoft.com/en-us/library/ms190500(v=sql.120).aspx
