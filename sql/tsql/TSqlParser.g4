@@ -2797,10 +2797,14 @@ opendatasource
 
 // https://msdn.microsoft.com/en-us/library/ms188927.aspx
 declare_statement
-    : DECLARE LOCAL_ID AS? (data_type | table_type_definition | table_name)
-    | DECLARE loc+=declare_local (',' loc+=declare_local)*
-    | DECLARE LOCAL_ID AS? xml_type_definition
+    : DECLARE declare_statement_ (',' declare_statement_)*
     | WITH XMLNAMESPACES '(' xml_dec+=xml_declaration (',' xml_dec+=xml_declaration)* ')'
+    | ',' declare_statement
+    ;
+declare_statement_
+    : LOCAL_ID AS? (data_type | table_type_definition | ((schema=id_ '.')? table_name))
+    | loc+=declare_local (',' loc+=declare_local)*
+    | LOCAL_ID AS? xml_type_definition
     ;
 
 xml_declaration
